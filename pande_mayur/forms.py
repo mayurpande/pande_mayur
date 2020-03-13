@@ -34,7 +34,7 @@ class TelephoneForm(Form):
             except ValueError:
                 raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
 
-            if 9 <= len(field.data) <= 11:
+            if len(field.data) < 9 or len(field.data) > 11:
                 raise ValidationError('You have not entered between 9-11 digits.')
 
 

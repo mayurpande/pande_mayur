@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, redirect, request
 from pande_mayur.forms import ContactForm
 from pande_mayur.models.models import Contact
 from pande_mayur.extensions import db
@@ -30,7 +30,9 @@ def index():
         db.session.add(contact_data)
         db.session.commit()
 
-
-
+        # after successfully commiting to db, flash a message then redirect to the request url
+        flash('User: ' + contact.first_name.data + " " + contact.last_name.data + ", has been added successfully",
+              'success')
+        return redirect(request.url)
 
     return render_template('index.html', form=contact)
