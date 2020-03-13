@@ -1,0 +1,5 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% macro render_content(field) %}
+    {{ wtf.form_field(field) }}
+{% endmacro %}
