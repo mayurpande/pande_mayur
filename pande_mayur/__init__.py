@@ -1,6 +1,6 @@
 from flask import Flask
 from .views.address import address
-from .extensions import db, migrate
+from .extensions import *
 from .models.models import *
 from .config import Config
 
@@ -17,6 +17,8 @@ def create_app():
     db.init_app(app)
     # init migrate to app using db
     migrate.init_app(app, db)
+    # init bootstrap on app
+    bootstrap.init_app(app)
 
     # register blueprints to app
     app.register_blueprint(address)
