@@ -13,4 +13,11 @@ def index():
     # instantiated ContactForm class
     contact = ContactForm()
 
+    if contact.validate_on_submit():
+        return '<h1>Country code {}, area code {}, number {}</h1>'.format(contact.country_code.data,
+                                                                          contact.home_phone.area_code.data,
+                                                                          contact.home_phone.number.data
+                                                                          )
+
+
     return render_template('index.html', form=contact)
