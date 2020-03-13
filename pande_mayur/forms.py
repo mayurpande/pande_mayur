@@ -11,7 +11,7 @@ class TelephoneForm(Form):
 
     def validate_country_code(self, field):
 
-        """Method to create a custom validation rule to check for length and type"""
+        """Method to create a custom validation rule to check for length and input type cast"""
 
         if len(field.data) > 0:
             try:
@@ -26,7 +26,7 @@ class TelephoneForm(Form):
 
     def validate_number(self, field):
 
-        """Method to create a custom validation rule to check for length and type"""
+        """Method to create a custom validation rule to check for length and input type cast"""
 
         if len(field.data) > 0:
             try:
@@ -34,8 +34,8 @@ class TelephoneForm(Form):
             except ValueError:
                 raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
 
-            if len(field.data) != 9:
-                raise ValidationError('You have not entered 9 digits.')
+            if 9 <= len(field.data) <= 11:
+                raise ValidationError('You have not entered between 9-11 digits.')
 
 
 class ContactForm(FlaskForm):
