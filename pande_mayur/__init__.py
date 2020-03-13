@@ -1,6 +1,7 @@
 from flask import Flask
 from .views.address import address
 from .extensions import db, migrate
+from .models import *
 
 
 def create_app():
