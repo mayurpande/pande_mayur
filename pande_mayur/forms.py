@@ -1,14 +1,16 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, Form, FormField
-from wtforms.validators import InputRequired, Length, Email, ValidationError
+from wtforms.validators import InputRequired, Length, Email, NumberRange
 
 
 class TelephoneForm(Form):
 
     """class to hold form fields for country code and number"""
 
-    country_code = IntegerField('Country Code', validators=[InputRequired(), Length(min=2, max=2)])
-    number = IntegerField('Number', validators=[InputRequired(), Length(min=9, max=9)])
+    country_code = IntegerField('Country Code', validators=[InputRequired(), NumberRange(
+        min=2, max=2, message='Must be 2 digits long')])
+    number = IntegerField('Number', validators=[InputRequired(), NumberRange(
+        min=9, max=9, message="Must be 9 digits long")])
 
 
 class ContactForm(FlaskForm):
