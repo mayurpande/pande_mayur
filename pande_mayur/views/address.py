@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
+from pande_mayur.forms import ContactForm
 
 # created blueprint for main address routes
 address = Blueprint('address', __name__)
@@ -9,5 +10,7 @@ def index():
 
     """main index route for address book which will loads the form"""
 
-    # TODO generate form and pass to template
-    return '<h1>hello world</h1>'
+    # instantiated ContactForm class
+    contact = ContactForm()
+
+    return render_template('index.html', form=contact)
