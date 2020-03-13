@@ -1,2 +1,5 @@
 venv/
 .idea/
+__pycache__/
+pande_mayur/__pycache__/*
+pande_mayur/views/__pycache__/*
