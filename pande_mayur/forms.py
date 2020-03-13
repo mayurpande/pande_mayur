@@ -1,16 +1,42 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, Form, FormField
-from wtforms.validators import InputRequired, Length, Email, NumberRange
+from wtforms import StringField, Form, FormField
+from wtforms.validators import InputRequired, Length, Email, ValidationError
 
 
 class TelephoneForm(Form):
 
     """class to hold form fields for country code and number"""
 
-    country_code = IntegerField('Country Code', validators=[InputRequired(), NumberRange(
-        min=2, max=2, message='Must be 2 digits long')])
-    number = IntegerField('Number', validators=[InputRequired(), NumberRange(
-        min=9, max=9, message="Must be 9 digits long")])
+    country_code = StringField('Country Code')
+    number = StringField('Number')
+
+    def validate_country_code(self, field):
+        """Method to create a custom validation rule to check for length and type"""
+
+        try:
+            # checks if instance type is of field data is int (once type casted to int)
+            True if isinstance(int(field.data), int) else False
+        except ValueError:
+            raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
+
+        print(len(field.data))
+        if len(field.data) != 2 and len(field.data) != 3:
+            # raise wtf custom validation error, with custom message
+            raise ValidationError('You have not entered 2 or 3 digits.')
+
+
+    def validate_number(self, field):
+
+        """Method to create a custom validation rule to check for length and type"""
+
+        try:
+            True if isinstance(int(field.data), int) else False
+        except ValueError:
+            raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
+
+        if len(field.data) != 9:
+            raise ValidationError('You have not entered 9 digits.')
+
 
 
 class ContactForm(FlaskForm):
