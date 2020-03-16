@@ -30,7 +30,7 @@ def index():
         db.session.add(contact_data)
         db.session.commit()
 
-        # after successfully commiting to db, flash a message then redirect to the request url
+        # after successfully committing to db, flash a message then redirect to the request url
         flash('User: ' + contact.first_name.data + " " + contact.last_name.data + ", has been added successfully",
               'success')
         return redirect(request.url)
