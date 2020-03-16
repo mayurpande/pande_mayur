@@ -10,4 +10,4 @@ class Contact(db.Model):
     lastname = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(300))
     email = db.Column(db.String(300), nullable=False)
-    phone = db.Column(db.Integer)
+    phone = db.Column(db.String(70))

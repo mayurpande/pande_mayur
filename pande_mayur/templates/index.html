@@ -9,18 +9,27 @@ Python Address Database
 <div class="container">
     <div class="row justify-content-center">
 
-            <form action="{{ url_for('address.index') }}" method="POST">
-                <div class="form-group col-md-4 col-md-offset-3 align-center">
-                     {{ form.csrf_token }}
-                     {% for field in form %}
-                        {% if field.name != 'csrf_token' %}
-                            {{ render_content(field) }}
-                        {% endif %}
-                     {% endfor %}
+        <div class="form-group col-md-4 col-md-offset-3 align-center">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('address.index') }}" method="POST">
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+                 {{ form.csrf_token }}
+                 {% for field in form %}
+                    {% if field.name != 'csrf_token' %}
+                        {{ render_content(field) }}
+                    {% endif %}
+                 {% endfor %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
     </div>
 
 </div>
