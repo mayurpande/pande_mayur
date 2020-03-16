@@ -6,7 +6,7 @@ from wtforms.validators import InputRequired, Length, Email, ValidationError
 class TelephoneForm(Form):
     """class to hold form fields for country code and number"""
 
-    country_code = StringField('Country Code')
+    country_code = StringField('Country Code (eg +34)')
     number = StringField('Number')
 
     def validate_country_code(self, field):
