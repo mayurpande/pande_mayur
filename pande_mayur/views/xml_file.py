@@ -24,7 +24,12 @@ def xml_file(xml):
         dom = ElementTree.parse(file_path)
         # find all contact in the dom
         contacts_xml = dom.findall('contact')
+
+        # for db in order of bulk insert
         data_contacts = []
+        # for displaying successful inserts
+        first_names = []
+
         errors = {
             'content_missing': [],
             'email': [],
@@ -53,14 +58,14 @@ def xml_file(xml):
             # run check for mandatory columns - append errors
             if not first_name or not last_name or not email:
                 errors['content_missing'].append(
-                    "<h1>You are missing data for either column(s): firstname, lastname, email for entry no: " + \
-                    str(s) + "</h1>")
+                    "You are missing data for either column(s): firstname, lastname, email for entry no: " + \
+                    str(s) + "")
                 continue
 
             # validate email address
             is_valid_email = validate_email(email)
             if not is_valid_email:
-                errors['email'].append('<h1>Email is not of valid type for entry no: ' + str(s) + '</h1>')
+                errors['email'].append('Email is not of valid type for entry no: ' + str(s) + '')
                 continue
 
             address = check_content_present('address')
@@ -86,14 +91,13 @@ def xml_file(xml):
 
                     else:
                         # append errors if not 2 or 3 digits
-                        errors['country_code'].append("<h1>Country code needs to be either 2 or 3 digits long, "
-                                                      "for entry no: " + str(s) + "</h1>")
+                        errors['country_code'].append("Country code needs to be either 2 or 3 digits long, "
+                                                      "for entry no: " + str(s) + "")
                         continue
                 except ValueError:
-                    errors['phone'].append("<h1>Phone number is not numeric digits, for entry no: " + str(s) + "</h1>")
+                    errors['phone'].append("Phone number is not numeric digits, for entry no: " + str(s) + "")
                     continue
             # create object to and append to list for bulk insert
-            print(phone)
             contact = Contact(
                 firstname=first_name,
                 lastname=last_name,
@@ -102,16 +106,15 @@ def xml_file(xml):
                 phone=phone
             )
             data_contacts.append(contact)
+            first_names.append(first_name)
 
-            if len(errors) > 0:
-                context = {
-                    'errors': errors
-                }
-                for key, value in errors.items():
-                    for error in value:
-                        print(error)
+        context = {}
+        if len(errors) > 0:
+            context['errors'] = errors
 
+        # add all object to session and commit
         db.session.add_all(data_contacts)
         db.session.commit()
+        context['success'] = first_names
 
     return render_template('xml_content.html', **context)
