@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% from "_render_content.html" import render_content %}
+
+{% block title %}
+Python Address Database - XML Page
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+
+        <div class="align-center text-center">
+
+                {% for value in errors.values() %}
+                    {% for error in value %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for name in success %}
+                    <div class="alert alert-success" role="alert">
+                        {{ name }}, was added successfully.
+                    </div>
+                {% endfor %}
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
