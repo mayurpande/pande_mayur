@@ -2,10 +2,11 @@
 {% from "_render_content.html" import render_content %}
 
 {% block title %}
-Python Address Database
+Python Address Database - XML Page
 {% endblock %}
 
 {% block navbar %}
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,31 +31,29 @@ Python Address Database
 </nav>
 {% endblock %}
 
-
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
+        <div class="align-center text-center">
+        {% if warning %}
+            <div class="alert alert-info" role="alert">
+                {{ warning }}
+            </div>
 
-        <div class="form-group col-md-4 col-md-offset-3 align-center">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <form action="{{ url_for('address.index') }}" method="POST">
-
-                 {{ form.csrf_token }}
-                 {% for field in form %}
-                    {% if field.name != 'csrf_token' %}
-                        {{ render_content(field) }}
-                    {% endif %}
-                 {% endfor %}
-                <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        {% else %}
+            {% for value in errors.values() %}
+                {% for error in value %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            {% endfor %}
+            {% for name in success %}
+                <div class="alert alert-success" role="alert">
+                    {{ name }}, was added successfully.
+                </div>
+            {% endfor %}
+        {% endif %}
         </div>
     </div>
 
