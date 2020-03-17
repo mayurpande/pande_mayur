@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, Form, FormField
 from wtforms.validators import InputRequired, Length, Email, ValidationError
+import re
 
 
 class TelephoneForm(Form):
@@ -20,7 +21,7 @@ class TelephoneForm(Form):
             except ValueError:
                 raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
 
-            if len(field.data) != 2 and len(field.data) != 3:
+            if len(field.data) < 3 or len(field.data) > 4:
                 # raise wtf custom validation error, with custom message
                 raise ValidationError('You have not entered 2 or 3 digits.')
 
@@ -30,11 +31,12 @@ class TelephoneForm(Form):
 
         if len(field.data) > 0:
             try:
-                True if isinstance(int(field.data), int) else False
+                field_without_brackets = re.sub(r'\(\w+\)', '', field.data)
+                True if isinstance(int(field_without_brackets), int) else False
             except ValueError:
                 raise ValidationError('Not a numeric number (it needs to be 2 or 3 digits).')
 
-            if len(field.data) < 9 or len(field.data) > 11:
+            if len(field_without_brackets) < 9 or len(field_without_brackets) > 11:
                 raise ValidationError('You have not entered between 9-11 digits.')
 
 
