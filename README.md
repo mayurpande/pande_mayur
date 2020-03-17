@@ -123,5 +123,6 @@ Please check the versions file before running `flask db upgrade`.
 
 * 0.1 
 * 0.2
+* 0.3
 
 
